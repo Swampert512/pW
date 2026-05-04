@@ -1,37 +1,59 @@
-import { Tarea } from '../entities/Tarea';
-import { TaskState } from '../../../shared/types/enums';
+import { UserRole } from '../../../shared/types/enums';
 
 /**
- * Puerto (interfaz) para el repositorio de Tareas.
+ * Entidad de dominio: Usuario
  *
- * Principio de Inversión de Dependencias (DIP):
- * - El dominio define el contrato (interfaz).
- * - La infraestructura implementa el adaptador concreto (SQLite, PostgreSQL, etc.).
- * - El dominio permanece puro, sin dependencias externas.
+ * SRP: Representa únicamente los datos y comportamiento de un usuario.
+ * No tiene conocimiento de persistencia, UI ni infraestructura.
  *
- * SRP: Solo contiene métodos relacionados con persistencia de tareas.
+ * Responsabilidades:
+ * - Contener datos del usuario (id, nombre, email, rol)
+ * - Validar su estado interno (ej: email no vacío)
  *
- * @interface ITareaRepository
+ * @class Usuario
  */
-export interface ITareaRepository {
-  /** Guarda una nueva tarea */
-  save(tarea: Tarea): Promise<Tarea>;
+export class Usuario {
+  public readonly id: string;
+      throw new Error('El id del usuario es requerido');
+    }
+    if (!name || name.trim().length === 0) {
+      throw new Error('El nombre del usuario es requerido');
+    }
+    if (!email || email.trim().length === 0 || !email.includes('@')) {
+      throw new Error('Email inválido');
+    }
 
-  /** Busca una tarea por su ID */
-  findById(id: string): Promise<Tarea | null>;
+    this.id = id;
+    this.name = name.trim();
+    this.email = email.trim();
+    this.role = role;
+  }
 
-  /** Obtiene todas las tareas, opcionalmente filtradas por proyecto */
-  findAll(projectId?: string): Promise<Tarea[]>;
+  // Métodos de comportamiento de dominio
 
-  /** Busca tareas por estado */
-  findByState(state: TaskState): Promise<Tarea[]>;
+  /**
+   * Verifica si el usuario tiene permisos para asignar responsables
+   * @returns {boolean} true si es LIDER o ADMIN
+   */
+  public puedeAsignarResponsables(): boolean {
+    return this.role === UserRole.LIDER || this.role === UserRole.ADMIN;
+  }
 
-  /** Busca tareas asignadas a un usuario */
-  findByResponsible(userId: string): Promise<Tarea[]>;
 
-  /** Actualiza una tarea existente */
-  update(tarea: Tarea): Promise<Tarea>;
 
-  /** Elimina una tarea por ID */
-  delete(id: string): Promise<void>;
+
+
+    // is admin?
+  public esAdmin(): boolean {
+    return this.role === UserRole.ADMIN;
+  }
+
+  /**
+   * Compara dos usuarios por identidad
+   * @param otro - Otro usuario a comparar
+   * @returns {boolean}
+   */
+  public equals(otro: Usuario): boolean {
+    return this.id === otro.id;
+  }
 }

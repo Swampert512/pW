@@ -1,20 +1,14 @@
 import { Usuario } from './Usuario';
 
-/**
- * Entidad de dominio: Proyecto
- *
- * SRP: Gestiona los datos y reglas de negocio de un proyecto.
- * No conoce infraestructura (BD, rutas, etc).
- *
- * @class Proyecto
- */
+// Projeto entity
+// TODO: agregar logo del proyecto
+// TODO: implementar permisos por rol
 export class Proyecto {
-  public readonly id: string;
-  public readonly name: string;
-  public readonly description: string;
-  private _team: Usuario[];
-  private _archived: boolean;
-
+  id: string;
+  name: string;
+  description: string;
+  team: Usuario[];
+  archived: boolean;
   constructor(
     id: string,
     name: string,
@@ -22,82 +16,57 @@ export class Proyecto {
     team: Usuario[] = [],
     archived: boolean = false
   ) {
-    if (!id || id.trim().length === 0) throw new Error('ID de proyecto requerido');
-    if (!name || name.trim().length === 0) throw new Error('Nombre de proyecto requerido');
-
+    if (!id || !name) {
+      throw new Error('ID y nombre requeridos');
+    }
     this.id = id;
     this.name = name.trim();
     this.description = description.trim();
-    this._team = team;
-    this._archived = archived;
+    this.team = team;
+    this.archived = archived;
   }
 
-  // --- Getters ---
-
-  get team(): Usuario[] {
-    return [...this._team]; // Copia defensiva
-  }
-
-  get archived(): boolean {
-    return this._archived;
-  }
-
-  // --- Métodos de dominio ---
-
-  /**
-   * Agrega un miembro al equipo del proyecto
-   * @param usuario - Usuario a agregar
-   * @throws {Error} Si el proyecto está archivado o el usuario ya existe
-   */
-  public agregarMiembro(usuario: Usuario): void {
-    if (this._archived) {
-      throw new Error('No se puede modificar un proyecto archivado');
+  // agregar miembro
+  agregarMiembro(usuario: Usuario): void {
+    if (this.archived) {
+      throw new Error('No se puede modificar proyecto archivado');
     }
-    if (this._team.some(m => m.equals(usuario))) {
-      throw new Error('El usuario ya pertenece al equipo');
+    if (this.team.some(m => m.id === usuario.id)) {
+      throw new Error('Usuario ya existe en el equipo');
     }
-    this._team.push(usuario);
+    this.team.push(usuario);
   }
 
-  /**
-   * Elimina un miembro del equipo
-   * @param usuarioId - ID del usuario a remover
-   * @throws {Error} Si el proyecto está archivado
-   */
-  public removerMiembro(usuarioId: string): void {
-    if (this._archived) {
-      throw new Error('No se puede modificar un proyecto archivado');
+  // quitar miembro
+  removerMiembro(usuarioId: string): void {
+    if (this.archived) {
+      throw new Error('No se puede modificar proyecto archivado');
     }
-    this._team = this._team.filter(m => m.id !== usuarioId);
+    this.team = this.team.filter(m => m.id !== usuarioId);
   }
 
-  /**
-   * Archiva el proyecto (ya no se pueden hacer cambios)
-   */
-  public archivar(): void {
-    this._archived = true;
+  // archivar proyecto
+  archivar(): void {
+    this.archived = true;
   }
 
-  /**
-   * Verifica si un usuario pertenece al equipo
-   * @param usuarioId
-   * @returns {boolean}
-   */
-  public tieneMiembro(usuarioId: string): boolean {
-    return this._team.some(m => m.id === usuarioId);
+  // check si usuario está en equipo
+  tieneMiembro(usuarioId: string): boolean {
+    return this.team.some(m => m.id === usuarioId);
   }
 
-  /**
-   * Convierte el proyecto a un objeto plano (para persistencia/serialización)
-   * @returns {object}
-   */
-  public toJSON() {
+  toJSON() {
     return {
       id: this.id,
       name: this.name,
       description: this.description,
-      team: this._team.map(m => ({ id: m.id, name: m.name, email: m.email, role: m.role })),
-      archived: this._archived
+      team: this.team.map(m => ({
+        id: m.id,
+        name: m.name,
+        email: m.email,
+        role: m.role
+      })),
+      archived: this.archived
     };
   }
 }
