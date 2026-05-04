@@ -1,0 +1,244 @@
+ESTRUCTURA COMPLETA DEL PROYECTO - SISTEMA DE GESTIÓN DE TAREAS
+===============================================================
+
+gestor-de-tareas/
+├── backend/
+│   └── src/
+│       ├── domain/                          [CAPA DE DOMINIO - Pura, sin dependencias externas]
+│       │   ├── entities/
+│       │   │   ├── Usuario.ts                [Entidad con roles y permisos]
+│       │   │   ├── Proyecto.ts               [Entidad con equipo]
+│       │   │   ├── Tarea.ts                  [Entidad con estados y prioridades]
+│       │   │   └── Task.ts                   [@deprecated alias]
+│       │   ├── commands/                     [Patrón Command para auditoría/undo]
+│       │   │   ├── CrearTareaCommand.ts      [Encapsula creación + validación]
+│       │   │   ├── CrearProyectoCommand.ts   [Encapsula creación de proyecto]
+│       │   │   ├── MoverTareaCommand.ts      [Cambio de estado + undo]
+│       │   │   ├── AsignarResponsableCommand.ts [Asignación + undo]
+│       │   │   └── CreateTaskCommand.ts      [@deprecated alias]
+│       │   ├── ports/                        [Puertos/Interfaces hexagonales]
+│       │   │   ├── ITareaRepository.ts       [Contrato para persistencia de tareas]
+│       │   │   └── IProyectoRepository.ts    [Contrato para persistencia de proyectos]
+│       │   ├── repositories/                 [Legacy]
+│       │   │   └── ITaskRepository.ts        [@deprecated]
+│       │   └── index.ts                      [Barrel export del domain]
+│       │
+│       ├── application/                      [CAPA DE APLICACIÓN - Orquestación]
+│       │   ├── services/
+│       │   │   ├── ProyectoService.ts        [Orquesta comandos + proyectos]
+│       │   │   ├── TareaService.ts           [Orquesta comandos + tareas + stats]
+│       │   │   └── index.ts                  [Barrel export]
+│       │   └── usecases/
+│       │       └── CreateTaskUseCase.ts      [Caso de uso de creación (legacy)]
+│       │
+│       └── infrastructure/                   [CAPA DE INFRAESTRUCTURA - Adaptadores]
+│           ├── adapters/
+│           │   ├── SQLiteDatabase.ts         [Conexión + esquema + transacciones]
+│           │   ├── ProyectoRepositoryImpl.ts [Adaptador SQLite para proyectos]
+│           │   ├── TareaRepositoryImpl.ts    [Adaptador SQLite para tareas]
+│           │   └── SQLiteTaskRepository.ts   [@deprecated legacy]
+│           ├── middlewares/
+│           │   ├── authMiddleware.ts         [JWT + extracción de usuario]
+│           │   └── corsMiddleware.ts         [CORS headers]
+│           ├── routes/
+│           │   ├── proyectoRoutes.ts         [POST /api/proyectos, GET, PUT /archive]
+│           │   ├── tareaRoutes.ts            [POST, GET /api/tareas, PUT /move, /assign]
+│           │   └── taskRoutes.ts             [@deprecated legacy]
+│           ├── i18n/
+│           │   └── i18nManager.ts            [Gestor de traducciones]
+│           └── server.ts                     [Express app, integración, startup]
+│
+├── frontend/
+│   └── src/
+│       ├── models/
+│       │   └── TaskModel.ts                  [Interfaz TypeScript para datos]
+│       ├── views/
+│       │   └── index.html                    [HTML principal con modal]
+│       ├── controllers/
+│       │   └── TaskController.ts             [Lógica MVC: fetch API + DOM]
+│       └── assets/
+│           └── styles.css                    [Dark mode, colores específicos]
+│
+├── shared/                                   [CÓDIGO COMPARTIDO]
+│   ├── types/
+│   │   ├── enums.ts                          [UserRole, Priority, TaskState]
+│   │   └── common.ts                         [Interfaces globales]
+│   └── i18n/                                 [Traducciones]
+│       ├── es.json                           [Español]
+│       └── en.json                           [Inglés]
+│
+├── tests/                                    [TESTS]
+│   ├── unit/
+│   │   ├── CreateTaskUseCase.test.ts         [Tests servicio]
+│   │   └── domain/
+│   │       ├── Tarea.test.ts                 [15 tests entidad]
+│   │       ├── Proyecto.test.ts              [10 tests entidad]
+│   │       ├── Usuario.test.ts               [8 tests entidad]
+│   │       └── commands/
+│   │           ├── CrearTareaCommand.test.ts [8 tests]
+│   │           ├── MoverTareaCommand.test.ts [9 tests]
+│   │           └── AsignarResponsableCommand.test.ts [7 tests]
+│   ├── integration/
+│   │   ├── SQLiteTaskRepository.test.ts      [Tests BD]
+│   │   └── ProyectoService.test.ts           [Tests servicio + BD]
+│   └── application/
+│       └── TareaService.test.ts              [25+ tests servicio]
+│
+├── docs/
+│   └── swagger.yaml                          [Documentación OpenAPI (legacy)]
+│
+├── data/                                     [BASE DE DATOS SQLITE]
+│   └── taskmanager.db                        [Archivo DB (se genera)]
+│
+├── dist/                                     [COMPILADO TYPESCRIPT (se genera)]
+│
+├── package.json                              [Dependencias + scripts]
+├── tsconfig.json                             [Config TypeScript strict]
+├── jest.config.js                            [Config de tests]
+├── .gitignore                                [Ignora node_modules, dist, *.db]
+├── README.md                                 [Documentación general]
+├── ARCHITECTURE_HEXAGONAL.md                 [Explicación arquitectura]
+└── QUICKSTART.md                             [Guía de ejecución]
+
+
+DEPENDENCIAS PRINCIPALES
+========================
+
+Producción:
+  - express@4.18.2           API REST framework
+  - sqlite3@5.1.6            Driver SQLite
+  - sqlite@5.0.1             Wrapper promisified
+  - swagger-ui-express@4.6.0 UI para API docs
+  - swagger-jsdoc@6.2.8      Genera Swagger de comentarios JSDoc
+  - jsonwebtoken@9.1.2       JWT para autenticación
+  - uuid@9.0.1               Generador de IDs
+
+Desarrollo:
+  - typescript@5.4.5          Compilador TypeScript strict
+  - @types/node@20.14.2       Tipos de Node.js
+  - @types/express@4.17.21    Tipos de Express
+  - ts-node@10.9.2            Ejecutar TS directamente
+  - jest@29.7.0               Framework de testing
+  - ts-jest@29.1.2            Jest + TypeScript
+  - concurrently@8.2.2        Ejecutar múltiples comandos
+  - live-server@1.2.2         Servidor para frontend
+
+
+SCRIPTS PRINCIPALES
+====================
+
+npm run dev              → Ejecuta backend (3000) + frontend (8080) en paralelo
+npm run dev:backend     → Solo backend en modo desarrollo
+npm run dev:frontend    → Solo frontend con live-reload
+npm run build           → Compila TypeScript a ./dist
+npm run test            → Ejecuta todos los tests (Jest)
+npm start               → Inicia desde compilación (./dist)
+
+
+ARQUITECTURA HEXAGONAL - FLUJO SIMPLIFICADO
+=============================================
+
+Petición HTTP
+    ↓
+┌─────────────────────────────────────┐
+│ INFRASTRUCTURE: ExpressController   │
+│ - Valida query params               │
+│ - Autenticación JWT (middleware)    │
+│ - Convierte request → comando       │
+└──────────────┬──────────────────────┘
+               ↓
+┌─────────────────────────────────────┐
+│ APPLICATION: TareaService           │
+│ - Orquesta comandos                 │
+│ - Valida reglas de negocio (App)   │
+│ - Llama adaptadores vía puertos     │
+└──────────────┬──────────────────────┘
+               ↓
+┌─────────────────────────────────────┐
+│ DOMAIN: Comandos + Entidades        │
+│ - CrearTareaCommand.execute()       │
+│ - Valida reglas de dominio          │
+│ - Construye entidad pura            │
+└──────────────┬──────────────────────┘
+               ↓
+┌─────────────────────────────────────┐
+│ INFRASTRUCTURE: Adaptador SQLite    │
+│ - TareaRepositoryImpl.save(tarea)   │
+│ - Ejecuta INSERT en BD              │
+│ - Maneja transacciones              │
+└──────────────┬──────────────────────┘
+               ↓
+         SQLite Database
+
+
+SEGURIDAD
+=========
+
+1. Autenticación (JWT):
+   - Header: Authorization: Bearer <token>
+   - Middleware authMiddleware verifica firma
+   - Extrae usuario en req.user
+
+2. Autorización (Roles):
+   - Middleware checkRole(UserRole.ADMIN)
+   - Protege rutas por rol
+   - Roles: MIEMBRO, LIDER, ADMIN
+
+3. Transacciones ACID:
+   - BEGIN TRANSACTION
+   - Operaciones múltiples
+   - COMMIT o ROLLBACK automático
+
+
+i18n (INTERNACIONALIZACIÓN)
+============================
+
+- Archivos JSON en shared/i18n/{es,en}.json
+- i18nManager.ts con método t(lang, key)
+- Uso: i18n.t('es', 'tarea.creada')
+- Endpoint: GET /api/i18n/{es|en}
+
+
+ENDPOINTS PRINCIPALES
+======================
+
+GET    /health                           → Health check
+GET    /api/i18n/{es|en}                → Traducciones
+
+GET    /api/proyectos                   → Listar proyectos
+POST   /api/proyectos                   → Crear proyecto
+GET    /api/proyectos/:id               → Obtener proyecto
+PUT    /api/proyectos/:id/archive       → Archivar (ADMIN)
+
+GET    /api/tareas                      → Listar tareas
+POST   /api/tareas                      → Crear tarea
+GET    /api/tareas/:id                  → Obtener tarea
+PUT    /api/tareas/:id/move             → Cambiar estado
+PUT    /api/tareas/:id/assign           → Asignar responsable
+DELETE /api/tareas/:id                  → Eliminar tarea
+GET    /api/tareas/proyecto/:id/dashboard → Stats
+
+GET    /api-docs                        → Swagger UI
+
+
+VARIABLES DE ENTORNO
+====================
+
+PORT=3000                 Puerto del servidor
+JWT_SECRET=dev-secret-key Clave JWT para firmar tokens
+NODE_ENV=development      Ambiente (development|production)
+
+
+PRUEBAS
+=======
+
+Total: ~75 tests
+- Unit tests (entidades, comandos, servicios): ~60
+- Integration tests (adaptadores, BD): ~15
+
+Cubrimiento target: >80%
+
+Ejecutar:
+  npm test                    Todos los tests
+  npm test -- Tarea.test      Solo tests de Tarea
+  npm test -- --coverage      Con reporte de coverage

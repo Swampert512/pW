@@ -1,0 +1,114 @@
+{
+  "app": {
+    "title": "Sistema de Gestión de Tareas",
+    "description": "Aplicación para gestionar proyectos y tareas"
+  },
+  "estados": {
+    "TODO": "Por Hacer",
+    "IN_PROGRESS": "En Progreso",
+    "TESTING": "Pruebas",
+    "DONE": "Completadas"
+  },
+  "prioridades": {
+    "BAJA": "Baja",
+    "MEDIA": "Media",
+    "ALTA": "Alta"
+  },
+  "roles": {
+    "MIEMBRO": "Miembro",
+    "LIDER": "Líder",
+    "ADMIN": "Administrador"
+  },
+  "proyecto": {
+    "creado": "Proyecto creado exitosamente",
+    "actualizado": "Proyecto actualizado",
+    "archivado": "Proyecto archivado",
+    "noEncontrado": "Proyecto no encontrado",
+    "nombreRequerido": "El nombre del proyecto es requerido",
+    "crear": "Crear Proyecto",
+    "editar": "Editar Proyecto",
+    "eliminar": "Eliminar Proyecto",
+    "equipo": "Equipo"
+  },
+  "tarea": {
+    "creada": "Tarea creada exitosamente",
+    "actualizada": "Tarea actualizada",
+    "movida": "Tarea movida a nuevo estado",
+    "movida_teclado": "Tarea movida con teclado",
+    "asignada": "Responsable asignado a la tarea",
+    "eliminada": "Tarea eliminada",
+    "noEncontrada": "Tarea no encontrada",
+    "sinResponsable": "No se puede completar sin responsable",
+    "transicionInvalida": "Transición de estado inválida",
+    "crear": "Crear Tarea",
+    "titulo": "Título",
+    "descripcion": "Descripción",
+    "responsable": "Responsable",
+    "vencimiento": "Fecha de Vencimiento",
+    "prioridad": "Prioridad",
+    "sin_asignar": "Sin asignar",
+    "vencida": "Vencida",
+    "error_mover": "No se pudo mover la tarea"
+  },
+  "comentarios": {
+    "creado": "Comentario agregado",
+    "error": "Error al agregar comentario",
+    "vacio": "El comentario no puede estar vacío",
+    "muy_largo": "El comentario no puede exceder 500 caracteres",
+    "enviando": "Enviando...",
+    "sin_comentarios": "Sin comentarios aún",
+    "placeholder": "Escribe un comentario...",
+    "adjuntar": "Adjuntar",
+    "enviar": "Enviar",
+    "eliminar": "Eliminar",
+    "archivo": "Archivo adjunto",
+    "archivo_listo": "Archivo seleccionado. Envía el comentario"
+  },
+  "dashboard": {
+    "total_tareas": "Total de Tareas",
+    "completadas": "Completadas",
+    "progreso": "Progreso",
+    "vencidas": "Tareas Vencidas",
+    "por_estado": "Tareas por Estado",
+    "carga_usuario": "Carga por Usuario",
+    "prioridades": "Distribución de Prioridades"
+  },
+  "filtros": {
+    "buscar": "Buscar por título...",
+    "responsable": "Responsable",
+    "prioridad": "Prioridad",
+    "estado": "Estado",
+    "todos": "Todos",
+    "limpiar": "Limpiar",
+    "mostrando": "Mostrando",
+    "de": "de"
+  },
+  "auth": {
+    "tokenNoProporcionado": "Token no proporcionado",
+    "tokenInvalido": "Token inválido o expirado",
+    "noAutenticado": "No autenticado",
+    "noAutorizado": "No autorizado para esta acción",
+    "login": "Ingresar",
+    "logout": "Cerrar Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña"
+  },
+  "usuario": {
+    "actualizado": "Usuario actualizado",
+    "creado": "Usuario creado",
+    "eliminado": "Usuario eliminado"
+  },
+  "common": {
+    "error": "Error",
+    "exito": "Éxito",
+    "cargando": "Cargando...",
+    "guardando": "Guardando...",
+    "eliminar": "Eliminar",
+    "cancelar": "Cancelar",
+    "guardar": "Guardar",
+    "editar": "Editar",
+    "crear": "Crear",
+    "si": "Sí",
+    "no": "No"
+  }
+}

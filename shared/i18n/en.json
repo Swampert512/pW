@@ -1,0 +1,114 @@
+{
+  "app": {
+    "title": "Task Management System",
+    "description": "Application to manage projects and tasks"
+  },
+  "estados": {
+    "TODO": "To Do",
+    "IN_PROGRESS": "In Progress",
+    "TESTING": "Testing",
+    "DONE": "Done"
+  },
+  "prioridades": {
+    "BAJA": "Low",
+    "MEDIA": "Medium",
+    "ALTA": "High"
+  },
+  "roles": {
+    "MIEMBRO": "Member",
+    "LIDER": "Leader",
+    "ADMIN": "Administrator"
+  },
+  "proyecto": {
+    "creado": "Project created successfully",
+    "actualizado": "Project updated",
+    "archivado": "Project archived",
+    "noEncontrado": "Project not found",
+    "nombreRequerido": "Project name is required",
+    "crear": "Create Project",
+    "editar": "Edit Project",
+    "eliminar": "Delete Project",
+    "equipo": "Team"
+  },
+  "tarea": {
+    "creada": "Task created successfully",
+    "actualizada": "Task updated",
+    "movida": "Task moved to new state",
+    "movida_teclado": "Task moved with keyboard",
+    "asignada": "Responsible assigned to task",
+    "eliminada": "Task deleted",
+    "noEncontrada": "Task not found",
+    "sinResponsable": "Cannot complete without responsible",
+    "transicionInvalida": "Invalid state transition",
+    "crear": "Create Task",
+    "titulo": "Title",
+    "descripcion": "Description",
+    "responsable": "Responsible",
+    "vencimiento": "Due Date",
+    "prioridad": "Priority",
+    "sin_asignar": "Unassigned",
+    "vencida": "Overdue",
+    "error_mover": "Could not move task"
+  },
+  "comentarios": {
+    "creado": "Comment added",
+    "error": "Error adding comment",
+    "vacio": "Comment cannot be empty",
+    "muy_largo": "Comment cannot exceed 500 characters",
+    "enviando": "Sending...",
+    "sin_comentarios": "No comments yet",
+    "placeholder": "Write a comment...",
+    "adjuntar": "Attach",
+    "enviar": "Send",
+    "eliminar": "Delete",
+    "archivo": "Attached file",
+    "archivo_listo": "File selected. Send the comment"
+  },
+  "dashboard": {
+    "total_tareas": "Total Tasks",
+    "completadas": "Completed",
+    "progreso": "Progress",
+    "vencidas": "Overdue Tasks",
+    "por_estado": "Tasks by State",
+    "carga_usuario": "Load by User",
+    "prioridades": "Priority Distribution"
+  },
+  "filtros": {
+    "buscar": "Search by title...",
+    "responsable": "Responsible",
+    "prioridad": "Priority",
+    "estado": "State",
+    "todos": "All",
+    "limpiar": "Clear",
+    "mostrando": "Showing",
+    "de": "of"
+  },
+  "auth": {
+    "tokenNoProporcionado": "Token not provided",
+    "tokenInvalido": "Invalid or expired token",
+    "noAutenticado": "Not authenticated",
+    "noAutorizado": "Not authorized for this action",
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password"
+  },
+  "usuario": {
+    "actualizado": "User updated",
+    "creado": "User created",
+    "eliminado": "User deleted"
+  },
+  "common": {
+    "error": "Error",
+    "exito": "Success",
+    "cargando": "Loading...",
+    "guardando": "Saving...",
+    "eliminar": "Delete",
+    "cancelar": "Cancel",
+    "guardar": "Save",
+    "editar": "Edit",
+    "crear": "Create",
+    "si": "Yes",
+    "no": "No"
+  }
+}
