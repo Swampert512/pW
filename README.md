@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📋 Sistema de Gestión de Tareas - Arquitectura Hexagonal + MVC
 
 ## Descripción
@@ -253,3 +254,6 @@ Swagger disponible en `http://localhost:3000/api-docs` cuando el servidor está 
 
 ## Internacionalización
 Soporta español e inglés mediante archivos JSON en `backend/src/infrastructure/i18n/`. Se detecta el idioma del navegador.
+=======
+# pW
+>>>>>>> fefee9508cd18d5dcc05968d5f6de01ca95512cf
